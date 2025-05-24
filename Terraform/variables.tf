@@ -4,7 +4,7 @@ variable "project_id" {
 
 variable "region" {
     type = string
-    default ="europe-west1"
+    default ="us-east1"
 }
 
 variable "env" {
@@ -13,7 +13,7 @@ variable "env" {
 
 variable "zone" {
     type = string
-    default ="europe-west1-b"
+    default ="us-east1-b"
 }
 
 variable "cluster" {
