@@ -1,0 +1,17 @@
+******************ETAPE de mise en ouevre***************
+
+
+1* Creation de repo GITHUB 
+
+2* Creation du projet GCP (+ activation des API des ressouces dont on a besoin)
+
+3* Configuration de l'environnement de Travail (Installationj de terraform , google cloud SDK...)
+
+4* Test d'instalation de terraform et google Sdk
+
+5* Creation de compte admin pour terraform (Creation_Compte_Service.ps1)
+
+
+6* Creation des differentes ressource 
+ 6-1 * Modules/gcs pour la creation du cloud storage
+ 6-2 * Modules/dataproc
