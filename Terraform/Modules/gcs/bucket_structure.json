@@ -4,5 +4,8 @@
     "opendata_velib/processed",
     "opendata_transport/raw",
     "opendata_transport/processed"
-]
+   ],
+"temporary" : [
+    "notebooks/temp"
+   ]
 }

@@ -1,6 +1,6 @@
 project_id = "paris-opendata-gcp"
-region     = "europe-west1"
+region     = "us-east1"
 env = "dev"
-zone  = "europe-west1-b"
+zone  = "us-east1-c"
 cluster = "paris-opendata-cluster"
 dataproc_service_account = "terraform-admin@paris-opendata-gcp.iam.gserviceaccount.com"
