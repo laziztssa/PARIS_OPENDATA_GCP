@@ -19,5 +19,15 @@ resource "google_dataproc_cluster" "cluster" {
       zone = var.zone
       service_account =  var.dataproc_service_account
     }
+
+    software_config {
+      optional_components = ["JUPYTER"]
+    }
+
+    endpoint_config {
+      enable_http_port_access = true
+    }
   }
 }
+
+
