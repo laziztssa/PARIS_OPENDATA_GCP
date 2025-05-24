@@ -1,0 +1,8 @@
+{
+"landing" : [
+    "opendata_velib/raw",
+    "opendata_velib/processed",
+    "opendata_transport/raw",
+    "opendata_transport/processed"
+]
+}
