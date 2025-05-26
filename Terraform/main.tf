@@ -1,5 +1,7 @@
 locals {
   folders_structure = jsondecode(file("Modules/gcs/bucket_structure.json"))
+  env_params_parsed = jsondecode(file("Modules/secrets/env_params.json"))
+  env_parameters    = jsonencode(local.env_params_parsed)
 }
 
 module "gcs" {
@@ -28,4 +30,14 @@ module "bigquery" {
   project_id =  var.project_id
   region = var.region
   env = var.env
+}
+
+
+
+module "secrets" {
+  source         = "./modules/secrets"
+  project_id     = var.project_id
+  env            = var.env
+  env_parameters = local.env_parameters
+  region         = var.region
 }

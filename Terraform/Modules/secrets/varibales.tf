@@ -7,11 +7,11 @@ variable "region" {
     default ="us-east1"
 }
 
-variable "structure" {
-    type = map(list(string))
-    description = "structure des repertoire à créer dans le buckets"
-}
-
 variable "env" {
   type = string
+}
+
+variable "env_parameters" {
+  type        = string
+  description = "JSON string contenant les paramètres d'environnement"
 }
