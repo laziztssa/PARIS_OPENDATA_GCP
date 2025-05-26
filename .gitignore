@@ -177,7 +177,7 @@ cython_debug/
 
 *.tfstate
 *.tfstate.*
-env_parametres.json
+env_params.json
 # terraform plan files  
 *.tfplan
 # terraform workspace files
