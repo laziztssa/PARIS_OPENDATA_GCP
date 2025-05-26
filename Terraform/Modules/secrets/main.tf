@@ -12,5 +12,5 @@ resource "google_secret_manager_secret" "env" {
 
 resource "google_secret_manager_secret_version" "env" {
     secret = google_secret_manager_secret.env.id
-    secret_data = var.env_parameters
+    secret_data_wo =   var.env_parameters
 }

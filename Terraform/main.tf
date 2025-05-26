@@ -33,6 +33,17 @@ module "bigquery" {
 }
 
 
+module "composer" {
+  composer_name = var.composer_name
+  source = "./Modules/composer"
+  project_id = var.project_id
+  region = var.region
+  env = var.env
+  service_account = var.dataproc_service_account
+  network = var.network
+  subnetwork = var.subnetwork
+}
+
 
 module "secrets" {
   source         = "./modules/secrets"

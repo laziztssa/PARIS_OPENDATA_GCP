@@ -23,3 +23,21 @@ variable "cluster" {
 variable "dataproc_service_account" {
   type = string
 }
+
+
+variable "composer_name" {
+  type = string
+}
+
+variable "network" {
+  type = string
+  default = "default"
+}
+
+variable "subnetwork" {
+  type = string
+  default = "default"
+  
+}
+
+
