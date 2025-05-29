@@ -22,22 +22,22 @@ JOB_1 = {
 }
 
 
-#GCS_JOB_FILE_2 = f"gs://{COMPOSER_BUCKET}/data/Workspace/Velib/Silver_Velib_Emplacement_Stations.ipynb"
-# JOB_2 = {
-#     "reference": {"project_id": PROJECT_ID},
-#     "placement": {"cluster_name": CLUSTER_NAME},
-#     "pyspark_job": {"main_python_file_uri": GCS_JOB_FILE_2},
-# }
+GCS_JOB_FILE_2 = f"gs://{COMPOSER_BUCKET}/data/Workspace/Velib/Silver_Velib_Emplacement_Stations.ipynb"
+JOB_2 = {
+    "reference": {"project_id": PROJECT_ID},
+    "placement": {"cluster_name": CLUSTER_NAME},
+    "pyspark_job": {"main_python_file_uri": GCS_JOB_FILE_2},
+}
 
 
 
 
-# GCS_JOB_FILE_3 = f"gs://{COMPOSER_BUCKET}/data/Workspace/Velib/Graphique_Emplacement_Station.ipynb"
-# JOB_3 = {
-#     "reference": {"project_id": PROJECT_ID},
-#     "placement": {"cluster_name": CLUSTER_NAME},
-#     "pyspark_job": {"main_python_file_uri": GCS_JOB_FILE_3},
-# }
+GCS_JOB_FILE_3 = f"gs://{COMPOSER_BUCKET}/data/Workspace/Velib/Graphique_Emplacement_Station.ipynb"
+JOB_3 = {
+    "reference": {"project_id": PROJECT_ID},
+    "placement": {"cluster_name": CLUSTER_NAME},
+    "pyspark_job": {"main_python_file_uri": GCS_JOB_FILE_3},
+}
 
 
 
@@ -72,21 +72,20 @@ with DAG(
         project_id=PROJECT_ID
     )
 
-    # task_2 = DataprocSubmitJobOperator(
-    #     task_id="Silver_Velib_Station", 
-    #     job=JOB_2, 
-    #     region=REGION, 
-    #     project_id=PROJECT_ID
-    # )
+    task_2 = DataprocSubmitJobOperator(
+        task_id="Silver_Velib_Station", 
+        job=JOB_2, 
+        region=REGION, 
+        project_id=PROJECT_ID
+    )
 
-    # task_3 = DataprocSubmitJobOperator(
-    #     task_id="Graphique_Velib", 
-    #     job=JOB_3, 
-    #     region=REGION, 
-    #     project_id=PROJECT_ID
-    # )
+    task_3 = DataprocSubmitJobOperator(
+        task_id="Graphique_Velib", 
+        job=JOB_3, 
+        region=REGION, 
+        project_id=PROJECT_ID
+    )
 
     
 # define the task dependencies
-task_1 
-#>> task_2 >> task_3
+task_1 >> task_2 >> task_3

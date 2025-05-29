@@ -44,7 +44,7 @@ def upload_dags():
 
 if __name__ == "__main__":
     # Appliquer la logique à tous les dossiers nécessaires
-    for folder in ["Workspace", "Notebooks", "AutresDossiers"]:
+    for folder in ["Workspace"]:
         if Path(folder).exists():
             convert_and_upload_notebooks(folder)
 
