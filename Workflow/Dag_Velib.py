@@ -22,7 +22,7 @@ JOB_1 = {
 }
 
 
-GCS_JOB_FILE_2 = f"gs://{COMPOSER_BUCKET}/data/scripts/Workspace/Velib/Silver_Velib_Emplacement_Stations.ipynb"
+GCS_JOB_FILE_2 = f"gs://{COMPOSER_BUCKET}/data/scripts/Workspace/Velib/Silver_Velib_Emplacement_Stations.py"
 JOB_2 = {
     "reference": {"project_id": PROJECT_ID},
     "placement": {"cluster_name": CLUSTER_NAME},
@@ -32,7 +32,7 @@ JOB_2 = {
 
 
 
-GCS_JOB_FILE_3 = f"gs://{COMPOSER_BUCKET}/data/scripts/Workspace/Velib/Graphique_Emplacement_Station.ipynb"
+GCS_JOB_FILE_3 = f"gs://{COMPOSER_BUCKET}/data/scripts/Workspace/Velib/Graphique_Emplacement_Station.py"
 JOB_3 = {
     "reference": {"project_id": PROJECT_ID},
     "placement": {"cluster_name": CLUSTER_NAME},
