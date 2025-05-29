@@ -9,21 +9,7 @@ BUCKET_NAME = os.environ.get("BUCKET_NAME", "us-east1-paris-opendata-com-baec303
 client = storage.Client()
 bucket = client.bucket(BUCKET_NAME)
 
-def clean_notebook_script(file_path):
-    """
-    Supprime les lignes magiques Jupyter d’un fichier .py converti.
-    """
-    lines = []
-    with open(file_path, "r", encoding="utf-8") as f:
-        for line in f:
-            if "get_ipython()" in line or line.strip().startswith("%"):
-                continue
-            lines.append(line)
-
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.writelines(lines)
-
-def convert_and_upload_notebooks(base_dir):
+def rename_and_upload_notebooks(base_dir):
     base_path = Path(base_dir)
 
     for ipynb_path in base_path.rglob("*.ipynb"):
@@ -32,25 +18,16 @@ def convert_and_upload_notebooks(base_dir):
         ipynb_bucket_path = Path("data/traitements") / relative_path
         py_bucket_path = Path("data/scripts") / relative_path.with_suffix(".py")
 
+        # Créer les dossiers localement
         py_local_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Convertir le notebook
-        subprocess.run([
-            "jupyter", "nbconvert", "--to", "script",
-            str(ipynb_path),
-            "--output", py_local_path.stem,
-            "--output-dir", str(py_local_path.parent)
-        ], check=True)
+        # Copier/renommer simplement le fichier .ipynb en .py (pas de conversion réelle)
+        shutil.copy(ipynb_path, py_local_path)
 
-        # Nettoyer le .py généré
-        clean_notebook_script(py_local_path)
-
-        # Upload de l’original (.ipynb)
+        # Upload de l’original .ipynb
         bucket.blob(str(ipynb_bucket_path)).upload_from_filename(ipynb_path)
 
-        # Upload du .py nettoyé
-        if not py_local_path.exists():
-            raise FileNotFoundError(f"Fichier converti introuvable : {py_local_path}")
+        # Upload de la copie renommée .py
         bucket.blob(str(py_bucket_path)).upload_from_filename(py_local_path)
 
 def upload_dags():
@@ -61,6 +38,6 @@ def upload_dags():
 if __name__ == "__main__":
     for folder in ["Workspace", "Notebooks", "AutresDossiers"]:
         if Path(folder).exists():
-            convert_and_upload_notebooks(folder)
+            rename_and_upload_notebooks(folder)
 
     upload_dags()
