@@ -10,6 +10,17 @@ BUCKET_NAME = os.environ.get("BUCKET_NAME", "us-east1-paris-opendata-com-baec303
 client = storage.Client()
 bucket = client.bucket(BUCKET_NAME)
 
+def clean_python_file(file_path):
+    with open(file_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Nettoyage du contenu
+    content = content.replace("null", "None")         # JSON null → Python None
+    content = content.replace(".ipynb", ".py")        # Références à .ipynb → .py
+
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(content)
+
 def rename_and_upload_notebooks(base_dir):
     base_path = Path(base_dir)
 
@@ -22,13 +33,16 @@ def rename_and_upload_notebooks(base_dir):
         # Créer les dossiers localement
         py_local_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Copier/renommer simplement le fichier .ipynb en .py (pas de conversion réelle)
+        # Copier/renommer simplement le fichier .ipynb en .py
         shutil.copy(ipynb_path, py_local_path)
 
-        # Upload de l’original .ipynb
+        # Nettoyage du fichier .py
+        clean_python_file(py_local_path)
+
+        # Upload du fichier original .ipynb
         bucket.blob(str(ipynb_bucket_path)).upload_from_filename(ipynb_path)
 
-        # Upload de la copie renommée .py
+        # Upload du fichier .py nettoyé
         bucket.blob(str(py_bucket_path)).upload_from_filename(py_local_path)
 
 def upload_dags():
