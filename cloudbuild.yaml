@@ -9,7 +9,7 @@ steps:
   - name: python:3.10
     id: "Convert + Upload notebooks & DAGs"
     entrypoint: python
-    args: ["Workspace/utils/Github_To_Bucket_Composer.py"]
+    args: ["utils/Github_To_Bucket_Composer.py"]
     env:
       - BUCKET_NAME=$_BUCKET_NAME
 
@@ -17,6 +17,6 @@ timeout: 900s
 
 options:
   logging: CLOUD_LOGGING_ONLY
-  
+
 substitutions:
   _BUCKET_NAME: us-east1-paris-opendata-com-baec303d-bucket
