@@ -9,16 +9,29 @@ BUCKET_NAME = os.environ.get("BUCKET_NAME", "us-east1-paris-opendata-com-baec303
 client = storage.Client()
 bucket = client.bucket(BUCKET_NAME)
 
+def clean_notebook_script(file_path):
+    """
+    Supprime les lignes magiques Jupyter d’un fichier .py converti.
+    """
+    lines = []
+    with open(file_path, "r", encoding="utf-8") as f:
+        for line in f:
+            if "get_ipython()" in line or line.strip().startswith("%"):
+                continue
+            lines.append(line)
+
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.writelines(lines)
+
 def convert_and_upload_notebooks(base_dir):
     base_path = Path(base_dir)
 
     for ipynb_path in base_path.rglob("*.ipynb"):
-        relative_path = ipynb_path.relative_to(".")  # Garde le chemin complet relatif
+        relative_path = ipynb_path.relative_to(".")
         py_local_path = Path("data/scripts") / relative_path.with_suffix(".py")
         ipynb_bucket_path = Path("data/traitements") / relative_path
         py_bucket_path = Path("data/scripts") / relative_path.with_suffix(".py")
 
-        # Créer les dossiers de destination localement
         py_local_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Convertir le notebook
@@ -29,22 +42,24 @@ def convert_and_upload_notebooks(base_dir):
             "--output-dir", str(py_local_path.parent)
         ], check=True)
 
-        # Upload de l’original
+        # Nettoyer le .py généré
+        clean_notebook_script(py_local_path)
+
+        # Upload de l’original (.ipynb)
         bucket.blob(str(ipynb_bucket_path)).upload_from_filename(ipynb_path)
 
-        # Upload du script converti
+        # Upload du .py nettoyé
         if not py_local_path.exists():
             raise FileNotFoundError(f"Fichier converti introuvable : {py_local_path}")
         bucket.blob(str(py_bucket_path)).upload_from_filename(py_local_path)
 
 def upload_dags():
-    for dag_file in Path("Workflow").rglob("*.py"):
+    for dag_file in Path("workflow").rglob("*.py"):
         bucket_path = f"dags/{dag_file.name}"
         bucket.blob(bucket_path).upload_from_filename(dag_file)
 
 if __name__ == "__main__":
-    # Appliquer la logique à tous les dossiers nécessaires
-    for folder in ["Workspace"]:
+    for folder in ["Workspace", "Notebooks", "AutresDossiers"]:
         if Path(folder).exists():
             convert_and_upload_notebooks(folder)
 
