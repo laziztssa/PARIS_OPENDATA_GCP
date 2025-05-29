@@ -1,22 +1,19 @@
 steps:
-  # 1. Installer les dépendances Python
   - name: python:3.10
-    id: "Install dependencies"
-    entrypoint: pip
-    args: ["install", "--upgrade", "pip", "jupyter", "google-cloud-storage"]
-
-  # 2. Lancer le script Python
-  - name: python:3.10
-    id: "Convert + Upload notebooks & DAGs"
-    entrypoint: python
-    args: ["Utils/Github_To_Bucket_Composer.py"]
+    id: "Install + Run script"
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        pip install --no-cache-dir --upgrade jupyter google-cloud-storage
+        python utils/Github_To_Bucket_Composer.py
     env:
       - BUCKET_NAME=$_BUCKET_NAME
 
-timeout: 900s
-
 options:
   logging: CLOUD_LOGGING_ONLY
+
+timeout: 900s
 
 substitutions:
   _BUCKET_NAME: us-east1-paris-opendata-com-baec303d-bucket
