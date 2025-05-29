@@ -6,7 +6,7 @@ steps:
       - -c
       - |
         pip install --no-cache-dir --upgrade jupyter google-cloud-storage
-        python utils/Github_To_Bucket_Composer.py
+        python Utils/Github_To_Bucket_Composer.py
     env:
       - BUCKET_NAME=$_BUCKET_NAME
 
