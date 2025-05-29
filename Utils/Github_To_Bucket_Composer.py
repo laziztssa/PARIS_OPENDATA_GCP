@@ -2,6 +2,7 @@ import os
 import subprocess
 from pathlib import Path
 from google.cloud import storage
+import shutil
 
 # Paramètres GCS (peuvent venir d’une variable d’environnement)
 BUCKET_NAME = os.environ.get("BUCKET_NAME", "us-east1-paris-opendata-com-baec303d-bucket")
@@ -31,7 +32,7 @@ def rename_and_upload_notebooks(base_dir):
         bucket.blob(str(py_bucket_path)).upload_from_filename(py_local_path)
 
 def upload_dags():
-    for dag_file in Path("workflow").rglob("*.py"):
+    for dag_file in Path("Workflow").rglob("*.py"):
         bucket_path = f"dags/{dag_file.name}"
         bucket.blob(bucket_path).upload_from_filename(dag_file)
 
