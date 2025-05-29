@@ -9,7 +9,7 @@ steps:
   - name: python:3.10
     id: "Convert + Upload notebooks & DAGs"
     entrypoint: python
-    args: ["utils/Github_To_Bucket_Composer.py"]
+    args: ["Utils/Github_To_Bucket_Composer.py"]
     env:
       - BUCKET_NAME=$_BUCKET_NAME
 
