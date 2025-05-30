@@ -22,7 +22,7 @@ JOB_1 = {
 }
 
 
-GCS_JOB_FILE_2 = f"gs://{COMPOSER_BUCKET}/data/scripts/Workspace/Velib/Silver_Velib_Emplacement_Stations.py"
+GCS_JOB_FILE_2 = f"gs://{COMPOSER_BUCKET}/data/traitements/Workspace/Velib/test_dag.py"
 JOB_2 = {
     "reference": {"project_id": PROJECT_ID},
     "placement": {"cluster_name": CLUSTER_NAME},
